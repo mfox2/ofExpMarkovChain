@@ -169,6 +169,8 @@ void testApp::insertIntoMarkovTabl(string blah)
 	vector<string> myVecStd;
 	
 	markovTabl[blah] = myVecStd;
+
+	savedPrefixes.push_back(blah);
 }
 
 void testApp::textRegEx(string partyTime, string fullText)
@@ -219,7 +221,7 @@ void testApp::generateNewText(map<string, vector<string>>, int length)
 		cout << "markovTabl.size = " << markovTabl.size() << endl;
 		cout << "random key = " << randomkey << endl;
 
-		string thekey = newBreakDown[randomkey];
+		string thekey = savedPrefixes[randomkey];
 
 		cout << "THE KEY = " << thekey << endl;
 

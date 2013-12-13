@@ -29,6 +29,7 @@ class testApp : public ofBaseApp{
 		int phraseSize;
 
 		vector<string> newBreakDown;
+		vector<string> savedPrefixes;
 
 		int mapSize;
 };
