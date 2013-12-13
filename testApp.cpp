@@ -214,49 +214,120 @@ void testApp::generateNewText(map<string, vector<string>>, int length)
 
 	string generatedString;
 
+	string nextKey;
+	bool valExists = false;
+
 	while(phraseLength < length)
 	{
-		int randomkey = int(ofRandom(0,markovTabl.size()-1));
+		string thekey;
 
-		cout << "markovTabl.size = " << markovTabl.size() << endl;
-		cout << "random key = " << randomkey << endl;
+		cout << "ValExists = " << valExists << endl;
 
-		string thekey = savedPrefixes[randomkey];
-
-		cout << "THE KEY = " << thekey << endl;
-
-		generatedString += thekey;
-
-		phraseLength += numPrefixWords;
-
-		int keySize = 0;
-
-		map<string, vector<string>>::iterator it = markovTabl.find(thekey);
-
-		keySize = it->second.size();
-		keySize -= 1;
-		
-		if(keySize < 0)
+		if(!valExists)
 		{
-			//cout << "somehow theres no suffix to the prefix?" << endl;
-			keySize = 0;
+			int randomkey = int(ofRandom(0,markovTabl.size()-1));
+
+			cout << "markovTabl.size = " << markovTabl.size() << endl;
+			cout << "random key = " << randomkey << endl;
+
+			thekey = savedPrefixes[randomkey];
+
+			cout << "THE KEY = " << thekey << endl;
+
+			generatedString += thekey;
+
+			phraseLength += numPrefixWords;
+
+			int keySize = 0;
+
+			map<string, vector<string>>::iterator it = markovTabl.find(thekey);
+
+			keySize = it->second.size();
+			keySize -= 1;
+		
+			if(keySize < 0)
+			{
+				cout << "somehow theres no suffix to the prefix?" << endl;
+				keySize = 0;
+				valExists = false;
+			}
+
+			else
+			{
+				int randomvalue = int(ofRandom(0, keySize));
+
+				cout << "markovTabl[thekey].size = " << keySize << endl;
+				cout << "random key = " << randomvalue << endl;
+
+				string thevalue = markovTabl[thekey][randomvalue];
+
+				cout << "THE VALUE = " << thevalue << endl;
+
+				generatedString += thevalue;
+				generatedString += " ";
+
+				nextKey = thevalue;
+
+				valExists = true;
+
+				phraseLength ++;
+			}
 		}
 
 		else
 		{
-			int randomvalue = int(ofRandom(0, keySize));
+			cout << "NextKey = " << nextKey << endl;
 
-			cout << "markovTabl[thekey].size = " << keySize << endl;
-			cout << "random key = " << randomvalue << endl;
+			thekey = nextKey;
 
-			string thevalue = markovTabl[thekey][randomvalue];
+			cout << "theKey = " << thekey << endl;
 
-			cout << "THE VALUE = " << thevalue << endl;
+			int keySize = 0;
 
-			generatedString += thevalue;
-			generatedString += " ";
+			map<string, vector<string>>::iterator it = markovTabl.find(nextKey);
 
-			phraseLength ++;
+			if(it == markovTabl.end())
+			{
+				keySize = 0;
+			}
+			
+			else{
+				keySize = it->second.size();
+			}
+
+			keySize -= 1;
+		
+			cout << "KeySize = " << keySize << endl;
+
+			if(keySize < 0)
+			{
+				cout << "somehow theres no suffix to the prefix?" << endl;
+				keySize = 0;
+				valExists = false;
+			}
+
+			else
+			{
+				cout << "we got to the else but somethings wrong" << endl;
+
+				int randomvalue = int(ofRandom(0, keySize));
+
+				cout << "markovTabl[thekey].size = " << keySize << endl;
+				cout << "random key = " << randomvalue << endl;
+
+				string thevalue = markovTabl[thekey][randomvalue];
+
+				cout << "THE VALUE = " << thevalue << endl;
+
+				generatedString += thevalue;
+				generatedString += " ";
+
+				nextKey = thevalue;
+
+				valExists = true;
+
+				phraseLength ++;
+			}
 		}
 	}
 
