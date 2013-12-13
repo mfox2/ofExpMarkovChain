@@ -1,0 +1,4 @@
+ofExpMarkovChain
+================
+
+Markov chain generation
